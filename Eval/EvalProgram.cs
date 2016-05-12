@@ -13,7 +13,7 @@ namespace EvalTask
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
-            Console.WriteLine(func().ToString().Replace(",", "."));
+            Console.WriteLine(func().ToString().Replace(",", ".").Replace("бесконечность","Infinity"));
         }
     }
 }
