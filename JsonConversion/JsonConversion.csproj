@@ -75,6 +75,12 @@
     <None Include="Samples\1.v3.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Samples\2.v2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\2.v3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Samples\warehouse-v3-schema.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
