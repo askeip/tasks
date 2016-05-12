@@ -10,7 +10,7 @@ namespace EvalTask
     [TestFixture]
     class EvalProgram_Should
     {
-        private EvalProgram evalProgram;
+        /*private EvalProgram evalProgram;
 
         [SetUp]
         public void SetUp()
@@ -55,6 +55,6 @@ namespace EvalTask
         public void Divide_TwoNums(string expression)
         {
             evalProgram.SolveExpression(expression);
-        }
+        }*/
     }
 }
