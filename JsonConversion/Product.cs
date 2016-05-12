@@ -12,7 +12,7 @@ namespace JsonConversion
 		public string Name { get; set; }
 
 		[JsonProperty(PropertyName = "price")]
-		public decimal? Price { get; set; }
+		public string Price { get; set; }
 
 		[JsonProperty(PropertyName = "count")]
 		public int? Count { get; set; }
@@ -33,6 +33,6 @@ namespace JsonConversion
 		public int? Count { get; set; }
 
         [JsonProperty(PropertyName = "size")]
-        public decimal[] Size { get; set; }
+        public string[] Size { get; set; }
     }
 }
