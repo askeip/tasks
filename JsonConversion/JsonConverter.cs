@@ -30,7 +30,7 @@ namespace JsonConversion
 
 	        var warehouseV3 = new WarehouseV3
 	        {
-		        Version = warehouseV2.Version,
+		        Version = "3",
 		        Products = productsV3.ToList()
 	        };
 
