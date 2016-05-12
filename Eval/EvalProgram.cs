@@ -9,7 +9,6 @@ namespace EvalTask
 		static void Main(string[] args)
 		{
 			string input = Console.In.ReadToEnd();
-		    input = input.Replace("%", "*0.01");
             var matches = Regex.Matches(input, @"([0-9\.]*)[\s]*/[\s]*([0-9\.]*)");
 		    //var str = Regex.Match(input, "([0-9.]*)[ ]{0,}/[ ]{0,}([0-9.]*)");
 		    foreach (Match match in matches)
@@ -32,9 +31,11 @@ namespace EvalTask
 		            input = Regex.Replace(input, match.Value, $"div({match.Groups[1]},{match.Groups[2]})");
 		        }
 		    }
+            input = input.Replace("%", "* 0.01");
             var calc = new Sprache.Calc.XtensibleCalculator();
-            calc.RegisterFunction("sqrt", (a) => Math.Sqrt(a));
+            calc.RegisterFunction("sqrt", Math.Sqrt);
             calc.RegisterFunction("div", (a,b) => (int)(a /b));
+            //calc.RegisterFunction("sqrt", Math.Sqrt);
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
