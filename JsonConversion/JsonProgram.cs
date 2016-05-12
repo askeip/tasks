@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 
 namespace JsonConversion
 {
@@ -8,9 +7,8 @@ namespace JsonConversion
 		static void Main()
 		{
 			string json = Console.In.ReadToEnd();
-			JObject v2 = JObject.Parse(json);
-			//...
-			var v3 = "{ 'version':'3', 'products': 'TODO' }";
+            var converter = new JsonConverter();
+		    var v3 = converter.Convert(json);
 			Console.Write(v3);
 		}
 	}
