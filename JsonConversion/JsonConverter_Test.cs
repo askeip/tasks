@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using NUnit.Framework;
 
@@ -7,16 +8,20 @@ namespace JsonConversion
 	[TestFixture]
 	public class JsonConverter_Test_Should
 	{
-		private readonly IJsonConverter jsonConverter;
+		private IJsonConverter jsonConverter;
 		private string jsonV2Example;
 		private string jsonV3Example;
+		private string jsonV3Schema;
 
 		[SetUp]
 		public void SetUp()
 		{
 			// TODO:
-			jsonV2Example = File.ReadAllText("1.v2.json");
-			jsonV3Example = File.ReadAllText("1.v3.json");
+			//jsonConverter = new JsonCoverter();
+			
+			jsonV2Example = File.ReadAllText("Samples/1.v2.json");
+			jsonV3Example = File.ReadAllText("Samples/1.v3.json");
+			jsonV3Schema = File.ReadAllText("Samples/warehouse-v3-schema.json");
 		}
 
 		[Test]
@@ -24,6 +29,18 @@ namespace JsonConversion
 		{
 			var result = jsonConverter.Convert(jsonV2Example);
 			Assert.AreEqual(jsonV3Example, result);
-		} 
+		}
+
+		[Test]
+		public void ValidDeserialization_WhenConvertFrom()
+		{
+			var convertedResult = jsonConverter.Convert(jsonV2Example);
+			var schema = JSchema.Parse(jsonV3Schema);
+			var jObject = JObject.Parse(convertedResult);
+
+			var valid = jObject.IsValid(schema);
+
+			Assert.True(valid);
+		}
 	}
 }
