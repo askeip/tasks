@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace JsonConversion
 {
@@ -14,7 +9,7 @@ namespace JsonConversion
 		public Version Version { get; set; }
 
 		[JsonProperty(PropertyName = "products")]
-		public Dictionary<string, ProductV3> Products { get; set; }
+		public Dictionary<string, ProductV2> Products { get; set; }
 
 	}
 
