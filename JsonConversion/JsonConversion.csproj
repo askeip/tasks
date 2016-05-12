@@ -58,11 +58,12 @@
   <ItemGroup>
     <Compile Include="Dimension.cs" />
     <Compile Include="IJsonConverter.cs" />
-    <Compile Include="JsonVersionThreeConverter.cs" />
+    <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonConverter_Test.cs" />
     <Compile Include="JsonProgram.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Version.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>

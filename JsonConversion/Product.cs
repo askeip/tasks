@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JsonConversion
+﻿namespace JsonConversion
 {
-    public class ProductV3
+    public class ProductV3  
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Count { get; set; }
     }
 
     public class ProductV2

@@ -17,7 +17,7 @@ namespace JsonConversion
 		public void SetUp()
 		{
 			// TODO:
-			//jsonConverter = new JsonCoverter();
+			jsonConverter = new JsonConverter();
 			
 			jsonV2Example = File.ReadAllText("Samples/1.v2.json");
 			jsonV3Example = File.ReadAllText("Samples/1.v3.json");
