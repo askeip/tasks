@@ -22,8 +22,8 @@ namespace JsonConversion
                                 ? null
                                 : new Dimensions
                                 {
-                                    H = prod.Value.Size.Length >= 1 ? prod.Value.Size[0] : (decimal?) null,
-                                    W = prod.Value.Size.Length >= 2 ? prod.Value.Size[1] : (decimal?) null,
+                                    W = prod.Value.Size.Length >= 1 ? prod.Value.Size[0] : (decimal?) null,
+                                    H = prod.Value.Size.Length >= 2 ? prod.Value.Size[1] : (decimal?) null,
                                     L = prod.Value.Size.Length >= 3 ? prod.Value.Size[2] : (decimal?) null,
                                 }
                         });
