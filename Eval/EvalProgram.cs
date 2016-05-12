@@ -15,12 +15,7 @@ namespace EvalTask
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
-            if (input.Contains("."))
-                Console.WriteLine(func().ToString().Replace(",", ".").Replace("бесконечность","Infinity"));
-            else
-            {
-                Console.WriteLine(((int)func()).ToString().Replace(",", ".").Replace("бесконечность", "Infinity"));
-            }
+            Console.WriteLine(func().ToString().Replace(",", ".").Replace("бесконечность","Infinity"));
 		}
     }
 }
