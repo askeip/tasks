@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -21,38 +22,77 @@ namespace SimQLTask
 			var jObject = JObject.Parse(json);
 			dataFromJson = (JObject)jObject["data"];
 			string[] queries = jObject["queries"].ToObject<string[]>();
-			return queries.Select(ProcessQuery);
+
+		    foreach (var query in queries)
+		    {
+		        yield return dataFromJson.ExecuteQuery(query);
+		    }
 		}
 
-	    public static string ProcessQuery(string query)
+	    public static string[] GetQueryArgs(string query)
 	    {
 	        var functionName = query.Substring(0, 3);
-	        string answer = "";
 
-	        var functionParams = query.Substring(query.IndexOf("("), query.IndexOf(")") - query.IndexOf("("));
+	        var functionParams = query
+                .Substring(query.IndexOf("(") + 1, query.IndexOf(")") - query.IndexOf("(") - 1)
+                .Split(new [] {'.'});
 
-	        var function = (Functions) Enum.Parse(typeof(Functions), functionName);
-	        switch (function)
-	        {
-	            case Functions.Sum:
-	                break;
-	            case Functions.Min:
-	                break;
-	            case Functions.Max:
-	                break;
-	            default:
-	                throw new ArgumentOutOfRangeException();
-	        }
-
-
-	        return string.Format("{0} = {1}", query, answer);
+	        return functionParams;
 	    }
 	}
 
     public enum Functions
     {
-        Sum,
-        Min,
-        Max
+        sum,
+        min,
+        max
     };
+
+    public static class JObjectExtensions
+    {
+        public static string ExecuteQuery(this JObject data, string query)
+        {
+            var queryArgs = SimQLProgram.GetQueryArgs(query);
+            var funcName = query.Substring(0, 3);
+
+            var function = (Functions)Enum.Parse(typeof(Functions), funcName);
+            switch (function)
+            {
+                case Functions.sum:
+                    return data.SumQuery(queryArgs);
+                case Functions.min:
+                    return data.MinQuery(queryArgs);
+                case Functions.max:
+                    return data.MaxQuery(queryArgs);
+                default:
+                    throw new ArgumentException();
+            }
+
+            return "";
+        }
+
+        private static string SumQuery(this JObject data, string[] queryArgs)
+        {
+            var objectToSum = (JToken)data;
+            foreach (var name in queryArgs)
+            {
+                if (objectToSum.Type != JTokenType.Array)
+                    objectToSum = objectToSum[name];
+            }
+
+
+
+            return "";
+        }
+
+        private static string MinQuery(this JObject data, string[] queryArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string MaxQuery(this JObject data, string[] queryArgs)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
