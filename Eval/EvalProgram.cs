@@ -11,7 +11,8 @@ namespace EvalTask
 
             var calc = new Sprache.Calc.XtensibleCalculator();
 		    calc.RegisterFunction("sqrt", Math.Sqrt);
-		    calc.RegisterFunction("%", a => a/100);
+
+		    input = input.Replace("%", "* 0.01");
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
