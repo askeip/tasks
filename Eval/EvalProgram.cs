@@ -35,12 +35,10 @@ namespace EvalTask
             var calc = new Sprache.Calc.XtensibleCalculator();
             calc.RegisterFunction("sqrt", (a) => Math.Sqrt(a));
             calc.RegisterFunction("div", (a,b) => (int)(a /b));
-            //calc.RegisterFunction("sqrt", Math.Sqrt);
-
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
             Console.WriteLine(func().ToString().Replace(",", ".").Replace("бесконечность","Infinity"));
-        }
+		}
     }
 }
