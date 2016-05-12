@@ -22,7 +22,7 @@ namespace JsonConversion
 
 	        var warehouseV3 = new WarehouseV3
 	        {
-		        Version = "3",
+		        Version = "2",
 		        Products = productsV3.ToList()
 	        };
 
