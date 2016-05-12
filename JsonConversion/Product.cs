@@ -33,6 +33,6 @@ namespace JsonConversion
 		public int? Count { get; set; }
 
         [JsonProperty(PropertyName = "size")]
-        public decimal[] Size { get; set; }
+        public string[] Size { get; set; }
     }
 }
