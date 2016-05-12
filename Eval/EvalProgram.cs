@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace EvalTask
 {
@@ -9,7 +10,7 @@ namespace EvalTask
 			string input = Console.In.ReadToEnd();
 
             var calc = new Sprache.Calc.XtensibleCalculator();
-
+		    calc.RegisterFunction("sqrt", Math.Sqrt);
             // using expressions
             var expr = calc.ParseExpression(input);
             var func = expr.Compile();
