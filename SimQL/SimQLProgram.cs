@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Linq;
 
 namespace SimQLTask
@@ -59,40 +61,84 @@ namespace SimQLTask
             switch (function)
             {
                 case Functions.sum:
-                    return data.SumQuery(queryArgs);
+                    return string.Format("{0} = {1}", query, data.SumQuery(queryArgs));
                 case Functions.min:
-                    return data.MinQuery(queryArgs);
+                    return string.Format("{0} = {1}", query, data.MinQuery(queryArgs));
                 case Functions.max:
-                    return data.MaxQuery(queryArgs);
+                    return string.Format("{0} = {1}", query, data.MaxQuery(queryArgs));
                 default:
                     throw new ArgumentException();
             }
-
-            return "";
         }
 
-        private static string SumQuery(this JObject data, string[] queryArgs)
+        private static IEnumerable<double> GetNums(this JObject data, string[] queryArgs)
         {
-            var objectToSum = (JToken)data;
-            foreach (var name in queryArgs)
+            IEnumerable<JToken> currTokens = new[] {(JToken)data};
+            foreach (var tokenName in queryArgs)
             {
-                if (objectToSum.Type != JTokenType.Array)
-                    objectToSum = objectToSum[name];
+                currTokens = currTokens.SelectMany(subToken =>
+                {
+                    if (subToken.Type != JTokenType.Array)
+                        return subToken.SelectTokens(tokenName);
+                    return subToken.SelectMany(arrElement => arrElement.SelectTokens(tokenName));
+                });
             }
 
+            var resultingNums = new List<double>();
 
+            foreach (var resultToken in currTokens)
+            {
+                switch (resultToken.Type)
+                {
+                    case JTokenType.Float:
+                        resultingNums.Add((double)resultToken);
+                        break;
+                    case JTokenType.Integer:
+                        resultingNums.Add((int)resultToken);
+                        break;
+                    case JTokenType.Array:
+                        foreach (var numToken in resultToken)
+                        {
+                            resultingNums.Add((double)numToken);
+                        }
+                        break;
+                }
+            }
 
-            return "";
+            return resultingNums;
         }
 
-        private static string MinQuery(this JObject data, string[] queryArgs)
+
+        private static double SumQuery(this JObject data, string[] queryArgs)
         {
-            throw new NotImplementedException();
+            var sum = 0.0;
+
+            foreach (var num in data.GetNums(queryArgs))
+                sum += num;
+
+            return sum;
         }
 
-        private static string MaxQuery(this JObject data, string[] queryArgs)
+        private static double MinQuery(this JObject data, string[] queryArgs)
         {
-            throw new NotImplementedException();
+            var min = double.MaxValue;
+
+            foreach (var num in data.GetNums(queryArgs))
+                if (num < min)
+                    min = num;
+
+            return min;
+        }
+
+        private static double MaxQuery(this JObject data, string[] queryArgs)
+        {
+            var max = double.MinValue;
+
+            foreach (var num in data.GetNums(queryArgs))
+                if (num > max)
+                    max = num;
+
+            return max;
         }
     }
 }
