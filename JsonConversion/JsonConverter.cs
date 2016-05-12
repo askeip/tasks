@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonConversion
@@ -9,16 +8,9 @@ namespace JsonConversion
     {
         public string Convert(string json)
         {
-            var jObj = JObject.Parse(json);
-
-            var productsV2 = new Dictionary<string, ProductV2>();
-            foreach (var jToken in (JObject)jObj["products"])
-            {
-                productsV2.Add(jToken.Key, jToken.Value.ToObject<ProductV2>());
-            }
-
+	        var warehouseV2 = JsonConvert.DeserializeObject<WarehouseV2>(json);
             var productsV3 =
-                productsV2.Select(
+				warehouseV2.Products.Select(
                     prod =>
                         new ProductV3
                         {
@@ -28,9 +20,14 @@ namespace JsonConversion
                             Price = prod.Value.Price
                         });
 
-            jObj["products"] = JToken.FromObject(productsV3);
-            jObj["version"] = JToken.FromObject(((int)Version.Three).ToString());
-            return jObj.ToString();
+	        var warehouseV3 = new WarehouseV3()
+	        {
+		        Version = Version.Three,
+		        Products = productsV3.ToList()
+	        };
+
+            var tokenV3 = JToken.FromObject(warehouseV3);
+            return tokenV3.ToString();
         }
     }
 }
