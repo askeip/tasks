@@ -11,9 +11,9 @@ namespace EvalTask
             var calc = new Sprache.Calc.XtensibleCalculator();
 
             // using expressions
-            var expr = calc.ParseExpression(input, x => 2, y => System.Math.PI);
+            var expr = calc.ParseExpression(input);
             var func = expr.Compile();
-            Console.WriteLine(func());
+            Console.WriteLine(func().ToString().Replace(",", "."));
         }
     }
 }
