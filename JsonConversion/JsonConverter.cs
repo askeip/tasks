@@ -17,12 +17,12 @@ namespace JsonConversion
                             Id = int.Parse(prod.Key),
                             Count = prod.Value.Count,
                             Name = prod.Value.Name,
-                            Price = prod.Value.Price,
+                            Price = prod.Value.Price
                         });
 
 	        var warehouseV3 = new WarehouseV3
 	        {
-		        Version = Version.Three,
+		        Version = "3",
 		        Products = productsV3.ToList()
 	        };
 
