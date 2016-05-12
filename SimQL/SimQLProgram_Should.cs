@@ -24,5 +24,14 @@ namespace SimQLTask
 				"'queries': ['sum(itemsCount)']}");
 			Assert.AreEqual(new[] { 42 }, results);
 		}
+
+        [Test]
+	    public void TestFromGithubTask()
+        {
+            var results =
+                SimQLProgram.ExecuteQueries(
+                    "{\r\n    \'data\': {\'a\':{\'x\':3.14, \'b\':[{\'c\':15}, {\'c\':9}]}, \'z\':[2.65, 35]},\r\n    \'queries\': [\r\n        \'sum(a.b.c)\',\r\n        \'min(z)\',\r\n        \'max(a.x)\'\r\n    ]\r\n}");
+            Assert.AreEqual(new[] { 24, 2.65, 3.14 }, results);
+        }
 	}
 }
