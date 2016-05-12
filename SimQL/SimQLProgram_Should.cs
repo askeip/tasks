@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 
 namespace SimQLTask
@@ -30,8 +31,17 @@ namespace SimQLTask
         {
             var results =
                 SimQLProgram.ExecuteQueries(
-                    "{\r\n    \'data\': {\'a\':{\'x\':3.14, \'b\':[{\'c\':15}, {\'c\':9}]}, \'z\':[2.65, 35]},\r\n    \'queries\': [\r\n        \'sum(a.b.c)\',\r\n        \'min(z)\',\r\n        \'max(a.x)\'\r\n    ]\r\n}");
+                    "{\r\n    \'data\': {\'a\':{\'x\':3.14, \'b\':[{\'c\':15}, {\'c\':9}]}, \'z\':[2.65, 35]},\r\n    \'queries\': [\r\n        \'sum(a.b.c)\',\r\n        \'min(z)\',\r\n        \'max(a.x)\'\r\n    ]\r\n}").ToList();
             Assert.AreEqual(new[] { 24, 2.65, 3.14 }, results);
         }
-	}
+
+        [Test]
+        public void TestForUnderstandingOfArraysInJson()
+        {
+            var results =
+                SimQLProgram.ExecuteQueries(
+                    "{\r\n    \'data\': {\'a\':{\'x\':3.14, \'b\':[{\'c\':15}, {\'c\':9}, {\'c\':1}, {\'d\':1}]}, \'z\':[2.65, 35]},\r\n    \'queries\': [\r\n        \'sum(a.b.c)\',\r\n        \'min(z)\',\r\n        \'max(a.x)\'\r\n    ]\r\n}");
+            Assert.AreEqual(new[] { 24, 2.65, 3.14 }, results);
+        }
+    }
 }
