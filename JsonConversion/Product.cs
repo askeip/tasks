@@ -1,17 +1,38 @@
-﻿namespace JsonConversion
+﻿using System;
+using Newtonsoft.Json;
+
+namespace JsonConversion
 {
     public class ProductV3  
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Count { get; set; }
+		[JsonProperty(PropertyName = "id")]
+		public int? Id { get; set; }
+
+		[JsonProperty(PropertyName = "name")]
+		public string Name { get; set; }
+
+		[JsonProperty(PropertyName = "price")]
+		public decimal? Price { get; set; }
+
+		[JsonProperty(PropertyName = "count")]
+		public int? Count { get; set; }
+
+        [JsonProperty(PropertyName = "dimensions")]
+        public Dimensions Dimensions { get; set; }
     }
 
     public class ProductV2
-    {
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Count { get; set; }
+	{
+		[JsonProperty(PropertyName = "name")]
+		public string Name { get; set; }
+
+		[JsonProperty(PropertyName = "price")]
+		public decimal? Price { get; set; }
+
+		[JsonProperty(PropertyName = "count")]
+		public int? Count { get; set; }
+
+        [JsonProperty(PropertyName = "size")]
+        public decimal[] Size { get; set; }
     }
 }

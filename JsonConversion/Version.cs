@@ -1,6 +1,8 @@
-﻿namespace JsonConversion
+﻿using Newtonsoft.Json.Converters;
+
+namespace JsonConversion
 {
-    public enum Version
+	public enum Version
     {
         Two = 2,
         Three = 3
