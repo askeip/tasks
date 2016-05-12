@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -6,8 +8,11 @@ namespace JsonConversion
 {
     public class JsonConverter : IJsonConverter
     {
-        public string Convert(string json)
+        public string Convert(string jsonstr)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+            var json = jsonstr.Replace("'", "");
             var warehouseV2 = JsonConvert.DeserializeObject<WarehouseV2>(json);
             var productsV3 =
                 warehouseV2.Products.Select(
@@ -17,7 +22,7 @@ namespace JsonConversion
                             Id = int.Parse(prod.Key),
                             Count = prod.Value.Count,
                             Name = prod.Value.Name,
-                            Price = prod.Value.Price,
+                            Price = prod.Value.Price == null ? (decimal?)null : decimal.Parse(prod.Value.Price?.Replace(",", ".")),
                             Dimensions = prod.Value.Size == null
                                 ? null
                                 : new Dimensions
