@@ -2,17 +2,15 @@
 using System.Linq;
 using System.Threading;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonConversion
 {
     public class JsonConverter : IJsonConverter
     {
-        public string Convert(string jsonstr)
+        public string Convert(string json)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-            var json = jsonstr.Replace("'", "");
             var warehouseV2 = JsonConvert.DeserializeObject<WarehouseV2>(json);
             var productsV3 =
                 warehouseV2.Products.Select(
@@ -22,14 +20,14 @@ namespace JsonConversion
                             Id = int.Parse(prod.Key),
                             Count = prod.Value.Count,
                             Name = prod.Value.Name,
-                            Price = prod.Value.Price == null ? (decimal?)null : decimal.Parse(prod.Value.Price?.Replace(",", ".")),
+                            Price = prod.Value.Price == null ? (decimal?)null : decimal.Parse(prod.Value.Price?.Replace("'", "").Replace(",", ".")),
                             Dimensions = prod.Value.Size == null
                                 ? null
                                 : new Dimensions
                                 {
-                                    W = prod.Value.Size.Length >= 1 ? decimal.Parse(prod.Value.Size[0].Replace(",", ".")) : (decimal?) null,
-                                    H = prod.Value.Size.Length >= 2 ? decimal.Parse(prod.Value.Size[1].Replace(",", ".")) : (decimal?) null,
-                                    L = prod.Value.Size.Length >= 3 ? decimal.Parse(prod.Value.Size[2].Replace(",", ".")) : (decimal?) null,
+                                    W = prod.Value.Size.Length >= 1 ? decimal.Parse(prod.Value.Size[0].Replace("'", "").Replace(",", ".")) : (decimal?) null,
+                                    H = prod.Value.Size.Length >= 2 ? decimal.Parse(prod.Value.Size[1].Replace("'", "").Replace(",", ".")) : (decimal?) null,
+                                    L = prod.Value.Size.Length >= 3 ? decimal.Parse(prod.Value.Size[2].Replace("'", "").Replace(",", ".")) : (decimal?) null,
                                 }
                         });
 
