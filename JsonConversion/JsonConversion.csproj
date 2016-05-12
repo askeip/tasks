@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dimension.cs" />
+    <Compile Include="Dimensions.cs" />
     <Compile Include="IJsonConverter.cs" />
     <Compile Include="JsonConverter.cs" />
     <Compile Include="JsonConverter_Test.cs" />

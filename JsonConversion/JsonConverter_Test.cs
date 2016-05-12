@@ -38,7 +38,6 @@ namespace JsonConversion
 		public void ConvertFromOldVersion_WhenDataIsCorrect()
 		{
 			var result = jsonConverter.Convert(jsonV2Example1);
-
 			CompareJsonStrings(jsonV3Example1, result);
 		}
 
