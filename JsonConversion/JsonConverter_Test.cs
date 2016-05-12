@@ -39,14 +39,14 @@ namespace JsonConversion
 		{
 			var result = jsonConverter.Convert(jsonV2Example1);
 
-			CompareJsonStrings(jsonV3Example1, result);
+			Assert.True(CompareJsonStrings(jsonV3Example1, result));
 		}
 
 		[Test]
 		public void ConvertFromOldVersion_WhenDataIsCorrect2()
 		{
 			var result = jsonConverter.Convert(jsonV2Example2);
-			CompareJsonStrings(jsonV3Example2, result);
+			Assert.True(CompareJsonStrings(jsonV3Example2, result));
 		}
 
 		[Test]
